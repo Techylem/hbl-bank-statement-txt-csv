@@ -6,18 +6,37 @@
 #5. add " and " around the figures with character `
 
 import os
-import pandas as pd
 import re
 import csv
+import numpy as np
+# def convert(lst): 
+#     return (lst.split('|')) 
 # Read data using pandas
-idf = pd.read_fwf("sample.txt",skiprows=9, header=None,index_col=0)
-df = pd.DataFrame(idf)
+f=open("sample.txt","r", encoding='utf8')
+#f=f.read()
+str1=f.readlines()[9:]
+#print(str1)
+# idf = pd.read_fwf("sample.txt",skiprows=9, header=None,index_col=0)
+# df = pd.DataFrame(idf)
 #df[df.0.str.contains(r'|')]
-df=df.replace('-', '', regex=True)
-df=df.replace(',', '', regex=True)
-df=df.replace(' ', '', regex=True)
-df=df.replace('|', ',', regex=True)
+str2=[]
+for x in str1:
+    x=re.sub("-", '',x)
+    x=re.sub(',', '',x)
+    x=re.sub('  ', '',x)
+    x=x.replace('|', ',')
+    x=re.sub('\n', '',x)
+    # x=re.sub('||', '',x)
+    # x=re.sub('|||', ',',x)
+    print(x)
+    str2.append(x)
 #df = re.sub(r"-", "", df)
-print(df)
+print(str2)
 #write back
-df.to_csv('out.csv',mode='w')
+# using the savetxt 
+# from the numpy module
+np.savetxt("output.csv", 
+           str2,
+           delimiter =", ", 
+           fmt ='% s')
+#str2.to_csv('out.csv',mode='w')
