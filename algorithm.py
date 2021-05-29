@@ -13,7 +13,7 @@
 import re
 import numpy as np
 
-
+# Adding account info back as this was skipped earlier
 def add_account_info(temp):
     file_handler = open("sample.txt", "r", encoding='utf8')
     temp_str = file_handler.readlines()[0:8]
@@ -21,8 +21,8 @@ def add_account_info(temp):
         temp.insert(0, var)
     return temp
 
-
-def test(temp_x, temp_rows, skip_rows=9):
+# Deleting/ Skipping repeated account info between two pages
+def test(temp_x, temp_rows, skip_rows=10):
     # Start: Code for skipping {skip_rows} after every 'Continue on next Page' encountered!
     if 'Continue on next page' in temp_x:
         return True, temp_rows+1
@@ -35,7 +35,7 @@ def test(temp_x, temp_rows, skip_rows=9):
     # End: Code for skipping {skip_rows} after every 'Continue on next Page' encountered!
     return False, 0
 
-
+# Merging cells
 def join_cells(input_str):
     str3 = []
     # Start: Code for generating a final string with joined cells
@@ -71,6 +71,7 @@ for line in read_file:
     line = re.sub('  ', '', line)
     line = line.replace('|', ',')
     line = re.sub('\n', '', line)
+    line = re.sub('  ', '', line)
     working_str.append(line)
 final_str = join_cells(working_str)
 final_str = add_account_info(final_str)
