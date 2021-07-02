@@ -3,7 +3,7 @@
 # 1. Replace commas with `
 # 2. Replace "-" with space
 # 3. Use regex and remove extra spaces
-# 4. Replace "|" with ","
+# 4. Replace "|" with ","  
 # 5. add " and " around the figures with character `
 # 6. replace ` with ,
 # 7. Join cells at the end and make a final csv
@@ -20,9 +20,8 @@ def add_account_info(temp):
     for var in reversed(temp_str):
         temp.insert(0, var)
     return temp
-
 # Deleting/ Skipping repeated account info between two pages
-def test(temp_x, temp_rows, skip_rows=10):
+def test(temp_x, temp_rows, skip_rows=12):
     # Start: Code for skipping {skip_rows} after every 'Continue on next Page' encountered!
     if 'Continue on next page' in temp_x:
         return True, temp_rows+1
@@ -58,13 +57,16 @@ def join_cells(input_str):
     return str3
 
 
-file = open("sample.txt", "r", encoding='utf8')
+file = open('input.txt', 'r')
 read_file = file.readlines()[9:]
 file.close()
 rows, allowed_work, working_str, final_str = 0, True, [], []
 for line in read_file:
     allowed_work, rows = test(line, rows)
     if allowed_work:
+        continue
+    # Skipping first Brought forward row
+    if 'BROUGHT FORWARD' in line :
         continue
     line = re.sub("-", '', line)
     line = re.sub(',', '', line)
